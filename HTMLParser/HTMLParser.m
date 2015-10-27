@@ -16,7 +16,7 @@
 	if (_doc == NULL)
 		return NULL;
 	
-	return [[[HTMLNode alloc] initWithXMLNode:(xmlNode*)_doc] autorelease];
+	return [[HTMLNode alloc] initWithXMLNode:(xmlNode*)_doc];
 }
 
 -(HTMLNode*)html
@@ -53,7 +53,9 @@
 		{
 			CFStringEncoding cfenc = CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding);
 			CFStringRef cfencstr = CFStringConvertEncodingToIANACharSetName(cfenc);
-			const char *enc = CFStringGetCStringPtr(cfencstr, 0);
+			char enc[1024];
+			CFStringGetCString(cfencstr, enc, 1024, 0);
+			
 			// _doc = htmlParseDoc((xmlChar*)[string UTF8String], enc);
 			int optionsHtml = HTML_PARSE_RECOVER;
 			optionsHtml = optionsHtml | HTML_PARSE_NOERROR; //Uncomment this to see HTML errors
@@ -109,13 +111,10 @@
 
 	if (_data == nil || *error)
 	{
-		[_data release];
 		return nil;
 	}
 	
 	self = [self initWithData:_data error:error];
-	
-	[_data release];
 	
 	return self;
 }
@@ -127,8 +126,7 @@
 	{
 		xmlFreeDoc(_doc);
 	}
-	
-	[super dealloc];
+
 }
 
 @end
