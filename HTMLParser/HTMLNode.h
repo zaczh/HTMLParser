@@ -36,7 +36,7 @@ typedef enum
 @interface HTMLNode : NSObject 
 {
 @public
-	xmlNode * _node; //HTMLParser is a real owner for the "_node"
+	xmlNode * _node;
 }
 
 //Init with a lib xml node (shouldn't need to be called manually)
