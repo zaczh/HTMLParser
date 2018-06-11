@@ -53,9 +53,7 @@
 		{
 			CFStringEncoding cfenc = CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding);
 			CFStringRef cfencstr = CFStringConvertEncodingToIANACharSetName(cfenc);
-			char enc[1024];
-			CFStringGetCString(cfencstr, enc, 1024, 0);
-			
+			const char *enc = CFStringGetCStringPtr(cfencstr, 0);
 			// _doc = htmlParseDoc((xmlChar*)[string UTF8String], enc);
 			int optionsHtml = HTML_PARSE_RECOVER;
 			optionsHtml = optionsHtml | HTML_PARSE_NOERROR; //Uncomment this to see HTML errors
@@ -73,7 +71,7 @@
 	return self;
 }
 
--(id)initWithData:(NSData*)data error:(NSError**)error
+-(instancetype _Nullable)initWithData:(NSData*)data error:(NSError**)error
 {
 	if (self = [super init])
 	{
@@ -97,7 +95,7 @@
 			{
 				*error = [NSError errorWithDomain:@"HTMLParserdomain" code:1 userInfo:nil];
 			}
-
+            return nil;
 		}
 	}
 	

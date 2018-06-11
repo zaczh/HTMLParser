@@ -32,8 +32,9 @@ void setAttributeNamed(xmlNode * node, const char * nameStr, const char * value)
 	for(xmlAttrPtr attr = node->properties; NULL != attr; attr = attr->next)
 	{
 		if (strcmp((char*)attr->name, nameStr) == 0)
-		{				
-			for(xmlNode * child = attr->children; NULL != child; child = child->next)
+		{
+            xmlNode * child = attr->children;
+			if (NULL != child)
 			{
 				free(child->content);
 				child->content = (xmlChar*)newVal;
@@ -51,11 +52,11 @@ NSString * getAttributeNamed(xmlNode * node, const char * nameStr)
 	for(xmlAttrPtr attr = node->properties; NULL != attr; attr = attr->next)
 	{
 		if (strcmp((char*)attr->name, nameStr) == 0)
-		{				
-			for(xmlNode * child = attr->children; NULL != child; child = child->next)
+		{
+            xmlNode * child = attr->children;
+			if (NULL != child)
 			{
 				return [NSString stringWithCString:(void*)child->content encoding:NSUTF8StringEncoding];
-				
 			}
 			break;
 		}
@@ -76,6 +77,13 @@ NSString * getAttributeNamed(xmlNode * node, const char * nameStr)
 {
 	return [self getAttributeNamed:@"class"];
 }
+
+#ifdef DEBUG
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<TagName: '%@', #child: %lu, content: '%@'>", [self tagName], (unsigned long)[self children].count, [self contents]];
+}
+#endif
 
 //Returns the tag name
 -(NSString*)tagName
@@ -180,6 +188,11 @@ NSString * getAttributeNamed(xmlNode * node, const char * nameStr)
 	}	
 	
 	return NULL;
+}
+
+- (HTMLNode * _Nullable)getElementById:(NSString * _Nonnull)tagId
+{
+    return [self findChildWithAttribute:@"id" matchingName:tagId allowPartial:false];
 }
 
 -(HTMLNode*)findChildTag:(NSString*)tagName

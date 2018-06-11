@@ -15,23 +15,23 @@
 @interface HTMLParser : NSObject 
 {
 	@public
-	htmlDocPtr _doc;
+	htmlDocPtr _Nonnull _doc;
 }
 
--(id)initWithContentsOfURL:(NSURL*)url error:(NSError**)error;
--(id)initWithData:(NSData*)data error:(NSError**)error;
--(id)initWithString:(NSString*)string error:(NSError**)error;
+-(instancetype _Nullable)initWithContentsOfURL:(NSURL*_Nonnull)url error:(NSError*_Nullable * _Nullable) error;
+-(instancetype _Nullable)initWithData:(NSData*_Nonnull)data error:(NSError*_Nullable * _Nullable)error;
+-(instancetype _Nullable)initWithString:(NSString*_Nonnull)string error:(NSError*_Nullable * _Nullable)error;
 
 //Returns the doc tag
--(HTMLNode*)doc;
+-(HTMLNode*_Nullable)doc;
 
 //Returns the body tag
--(HTMLNode*)body;
+-(HTMLNode*_Nullable)body;
 
 //Returns the html tag
--(HTMLNode*)html;
+-(HTMLNode*_Nullable)html;
 
 //Returns the head tag
-- (HTMLNode*)head;
+- (HTMLNode*_Nullable)head;
 
 @end

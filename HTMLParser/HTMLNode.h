@@ -33,79 +33,82 @@ typedef enum
 	HTMLBlockQuoteNode,
 } HTMLNodeType;
 
+
 @interface HTMLNode : NSObject 
 {
 @public
-	xmlNode * _node;
+	xmlNode * _Nonnull _node;
 }
 
 //Init with a lib xml node (shouldn't need to be called manually)
 //Use [parser doc] to get the root Node
--(id)initWithXMLNode:(xmlNode*)xmlNode;
+-(id _Nonnull)initWithXMLNode:(xmlNode* _Nonnull)xmlNode;
 
 //Returns a single child of class
--(HTMLNode*)findChildOfClass:(NSString*)className;
+-(HTMLNode* _Nullable)findChildOfClass:(NSString* _Nonnull)className;
 
 //Returns all children of class
--(NSArray*)findChildrenOfClass:(NSString*)className;
+-(NSArray <HTMLNode*>* _Nonnull)findChildrenOfClass:(NSString * _Nonnull)className;
 
 //Finds a single child with a matching attribute 
 //set allowPartial to match partial matches 
 //e.g. <img src="http://www.google.com> [findChildWithAttribute:@"src" matchingName:"google.com" allowPartial:TRUE]
--(HTMLNode*)findChildWithAttribute:(NSString*)attribute matchingName:(NSString*)className allowPartial:(BOOL)partial;
+-(HTMLNode* _Nullable)findChildWithAttribute:(NSString*_Nonnull)attribute matchingName:(NSString*_Nonnull)className allowPartial:(BOOL)partial;
 
 //Finds all children with a matching attribute
--(NSArray*)findChildrenWithAttribute:(NSString*)attribute matchingName:(NSString*)className allowPartial:(BOOL)partial;
+-(NSArray <HTMLNode*>* _Nonnull)findChildrenWithAttribute:(NSString*_Nonnull)attribute matchingName:(NSString*_Nonnull)className allowPartial:(BOOL)partial;
 
 //Gets the attribute value matching tha name
--(NSString*)getAttributeNamed:(NSString*)name;
+-(NSString* _Nullable)getAttributeNamed:(NSString*_Nonnull)name;
 
 //Find childer with the specified tag name
--(NSArray*)findChildTags:(NSString*)tagName;
+-(NSArray <HTMLNode*>* _Nonnull)findChildTags:(NSString*_Nonnull)tagName;
 
 //Looks for a tag name e.g. "h3"
--(HTMLNode*)findChildTag:(NSString*)tagName;
+-(HTMLNode* _Nullable)findChildTag:(NSString*_Nonnull)tagName;
+
+// Find child with the specified id
+- (HTMLNode * _Nullable)getElementById:(NSString * _Nonnull)tagId;
 
 //Returns the first child element
--(HTMLNode*)firstChild;
+-(HTMLNode* _Nullable)firstChild;
 
 //Returns the plaintext contents of node
--(NSString*)contents;
+-(NSString* _Nullable)contents;
 
 //Returns the plaintext contents of this node + all children
--(NSString*)allContents;
+-(NSString* _Nullable)allContents;
 
 //Returns the html contents of the node 
--(NSString*)rawContents;
+-(NSString* _Nullable)rawContents;
 
 //Returns next sibling in tree
--(HTMLNode*)nextSibling;
+-(HTMLNode* _Nullable)nextSibling;
 
 //Returns previous sibling in tree
--(HTMLNode*)previousSibling;
+-(HTMLNode* _Nullable)previousSibling;
 
 //Returns the class name
--(NSString*)className;
+-(NSString* _Nullable)className;
 
 //Returns the tag name
--(NSString*)tagName;
+-(NSString* _Nullable)tagName;
 
 //Returns the parent
--(HTMLNode*)parent;
+-(HTMLNode* _Nonnull)parent;
 
 //Returns the first level of children
--(NSArray*)children;
+-(NSArray <HTMLNode*> * _Nonnull)children;
 
 //Returns the node type if know
 -(HTMLNodeType)nodetype;
 
-
 //C functions for minor performance increase in tight loops
-NSString * getAttributeNamed(xmlNode * node, const char * nameStr);
-void setAttributeNamed(xmlNode * node, const char * nameStr, const char * value);
-HTMLNodeType nodeType(xmlNode* node);
-NSString * allNodeContents(xmlNode*node);
-NSString * rawContentsOfNode(xmlNode * node);
+NSString * _Nullable getAttributeNamed(xmlNode *_Nonnull node, const char *_Nonnull nameStr);
+void setAttributeNamed(xmlNode *_Nonnull node, const char *_Nonnull nameStr, const char *_Nonnull value);
+HTMLNodeType nodeType(xmlNode*_Nonnull node);
+NSString * _Nullable allNodeContents(xmlNode*_Nonnull node);
+NSString * _Nullable rawContentsOfNode(xmlNode *_Nonnull node);
 
 
 @end
